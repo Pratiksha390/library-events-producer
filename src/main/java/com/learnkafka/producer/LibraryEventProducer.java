@@ -66,7 +66,8 @@ public class LibraryEventProducer {
     }
 
     private ProducerRecord<Integer, String> buildProducerRecord(Integer key, String value, String topic) {
-        return new ProducerRecord<>(topic, null,key,value,null);
+        List<Header> recordHeaders = List.of(new RecordHeader("event-source","scanner".getBytes()));
+        return new ProducerRecord<>(topic, null,key,value,recordHeaders);
     }
 
     public SendResult<Integer, String> sendLibraryEventSynchronous(LibraryEvent libraryEvent) throws JsonProcessingException, ExecutionException, InterruptedException, TimeoutException {
